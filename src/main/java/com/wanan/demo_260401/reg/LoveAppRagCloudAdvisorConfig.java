@@ -14,24 +14,26 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 自定义基于阿里云知识库服务的 RAG 增强顾问
  */
-//@Configuration
-//@Slf4j
+@Configuration
+@Slf4j
 public class LoveAppRagCloudAdvisorConfig {
 
-//    @Value("${spring.ai.dashscope.api-key}")
-//    private String dashScopeApiKey;
+    @Value("${spring.ai.dashscope.api-key}")
+    private String dashScopeApiKey;
 
-//    @Bean
+    @Bean
     public Advisor loveAppRagCloudAdvisor() {
+        DashScopeApi dashScopeApi = new DashScopeApi(dashScopeApiKey);
+
 //        DashScopeApi dashScopeApi = DashScopeApi.builder().apiKey(dashScopeApiKey).build();
-//        final String KNOWLEDGE_INDEX = "恋爱大师";
-//        DocumentRetriever dashScopeDocumentRetriever = new DashScopeDocumentRetriever(dashScopeApi,
-//                DashScopeDocumentRetrieverOptions.builder()
-//                        .withIndexName(KNOWLEDGE_INDEX)
-//                        .build());
-//        return RetrievalAugmentationAdvisor.builder()
-//                .documentRetriever(dashScopeDocumentRetriever)
-//                .build();
-        return null;
+
+        final String KNOWLEDGE_INDEX = "恋爱大师";
+        DocumentRetriever dashScopeDocumentRetriever = new DashScopeDocumentRetriever(dashScopeApi,
+                DashScopeDocumentRetrieverOptions.builder()
+                        .withIndexName(KNOWLEDGE_INDEX)
+                        .build());
+        return RetrievalAugmentationAdvisor.builder()
+                .documentRetriever(dashScopeDocumentRetriever)
+                .build();
     }
 }

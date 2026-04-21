@@ -22,14 +22,14 @@ public class RegLoveApp {
     @Autowired
     private ChatClient chatClient;
 
-    @Autowired
-    private VectorStore loveAppVectorStore;
+//    @Autowired
+//    private VectorStore loveAppVectorStore;
 
-//    @Resource
-//    private Advisor loveAppRagCloudAdvisor;
+//    @Resource(name = "loveAppRagCloudAdvisor")
+//    private Advisor loveAppRagCloudAdvisorConfig;
 
-//    @Resource
-//    private VectorStore pgVectorVectorStoreConfig;
+    @Resource(name = "pgVectorVectorStore")
+    private VectorStore pgVectorVectorStoreConfig;
 
     public String doChatWithRag(String message, String chatId) {
         ChatResponse chatResponse = chatClient
@@ -44,9 +44,9 @@ public class RegLoveApp {
 //                // 应用 RAG 检索增强服务（基于云知识库服务）
 //                .advisors(loveAppRagCloudAdvisor)
 //                // 应用 RAG 检索增强服务（基于云知识库服务）
-//                .advisors(loveAppRagCloudAdvisor)
+//                .advisors(loveAppRagCloudAdvisorConfig)
                 // 应用 RAG 检索增强服务（基于 pgVector向量数据库）
-//                .advisors(new QuestionAnswerAdvisor(pgVectorVectorStoreConfig))
+                .advisors(new QuestionAnswerAdvisor(pgVectorVectorStoreConfig))
                 .call()
                 .chatResponse();
         String content = chatResponse.getResult().getOutput().getText();
